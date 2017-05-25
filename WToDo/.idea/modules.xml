@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/WToDo.iml" filepath="$PROJECT_DIR$/WToDo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wtodo.iml" filepath="$PROJECT_DIR$/wtodo.iml" />
     </modules>
   </component>
 </project>
