@@ -3,4 +3,11 @@
     <string name="edit_item_below">Edit Item Below:</string>
     <string name="add">add</string>
     <string name="save">Save</string>
+    <string name="create">Create</string>
+    <string name="priority">Priority</string>
+    <string name="task_notes">Task Notes</string>
+    <string name="title">Title</string>
+    <string name="task_name">Task Name</string>
+    <string name="cancel">cancel</string>
+    <string name="content">Content</string>
 </resources>

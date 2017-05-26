@@ -28,6 +28,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NOTE = "WtodoDB";
     private static final String COLUMN_NOTE_ID = "Note_Id";
     private static final String COLUMN_NOTE_CONTENT = "Note_Content";
+    private static final String COLUMN_NOTE_TITLE = "Note_Title";
+    private static final String COLUMN_NOTE_PRIORITY = "Note_Priority";
 
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +40,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.onCreate ...");
         //Script create table
         String script = "CREATE TABLE " + TABLE_NOTE + "("
-                + COLUMN_NOTE_ID + " INTEGER PRIMARY KEY," + COLUMN_NOTE_CONTENT + " TEXT" + ")";
+                + COLUMN_NOTE_ID + " INTEGER PRIMARY KEY," + COLUMN_NOTE_TITLE + " TEXT,"
+                + COLUMN_NOTE_CONTENT + " TEXT," + COLUMN_NOTE_PRIORITY + " INTEGER)";
         // Execute script.
         db.execSQL(script);
     }
@@ -56,32 +59,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addNote ... " + note.getNoteId());
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE_TITLE,note.getNoteTitle() );
         values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
+        values.put(COLUMN_NOTE_PRIORITY, note.getNotePriority());
         db.insert(TABLE_NOTE, null, values);
         db.close();
-    }
-
-    public int getNotesCount() {
-        Log.i(TAG, "MyDatabaseHelper.getNotesCount ... ");
-        int flag;
-        String script = "SELECT " + COLUMN_NOTE_ID + " FROM " + TABLE_NOTE;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(script, null);
-        flag = cursor.getCount();
-        db.close();
-        return flag;
-    }
-
-    public Note getNote(int id) {
-        Log.i(TAG, "MyDatabaseHelper.getNote ... ");
-        Note note = new Note();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NOTE, new String[]{COLUMN_NOTE_ID, COLUMN_NOTE_CONTENT},
-                COLUMN_NOTE_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        note.setNoteId(Integer.parseInt(cursor.getString(0)));
-        note.setNoteContent(cursor.getString(1));
-        db.close();
-        return note;
     }
 
     public List<Note> getAllNote() {
@@ -94,7 +76,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             do {
                 Note note = new Note();
                 note.setNoteId(Integer.parseInt(cursor.getString(0)));
-                note.setNoteContent(cursor.getString(1));
+                note.setNoteTitle(cursor.getString(1));
+                note.setNoteContent(cursor.getString(2));
+                note.setNotePriority(Integer.parseInt(cursor.getString(3)));
                 list.add(note);
             } while (cursor.moveToNext());
         }
@@ -109,7 +93,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(COLUMN_NOTE_TITLE, note.getNoteTitle());
         values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
+        values.put(COLUMN_NOTE_PRIORITY, note.getNotePriority());
 
         // updating row
         flag = db.update(TABLE_NOTE, values, COLUMN_NOTE_ID + " = ?",

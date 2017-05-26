@@ -8,7 +8,17 @@
         android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Content"
-        android:textSize="24dp"
-        android:padding="8dp"/>
+        android:text="@string/content"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:padding="8sp"/>
+    <TextView
+        android:id="@+id/tvPri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/black"
+        android:text="@string/priority"
+        android:padding="8sp"/>
 </RelativeLayout>

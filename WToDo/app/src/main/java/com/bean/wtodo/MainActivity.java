@@ -1,37 +1,23 @@
 package com.bean.wtodo;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.opengl.EGLExt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bean.wtodo.dto.Note;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity {
 
     private final List<Note> noteList = new ArrayList<Note>();
     private ArrayAdapter<Note> listViewAdapter;
-    private EditText etWork;
     private ListView lvWork;
     private final int REQUEST_CODE = 20;
 
@@ -43,16 +29,13 @@ public class MainActivity extends AppCompatActivity {
         //View are created in the layout
         //Find reference to those views
         lvWork = (ListView) findViewById(R.id.lvWork);
-        etWork = (EditText) findViewById(R.id.etWork);
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
-
         List<Note> list = db.getAllNote();
         this.noteList.addAll(list);
 //      this.listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, this.noteList);
         this.listViewAdapter = new NoteAdapter(MainActivity.this, noteList);
         lvWork.setAdapter(listViewAdapter);
-        etWork = (EditText) findViewById(R.id.etWork);
         setupListViewListener();
     }
 
@@ -88,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
                 intent.putExtra("item", noteList.get(position));
+                intent.putExtra("action", "update");
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -95,13 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSubmit(View view) {
         //Get value from the text field
-        String content = etWork.getText().toString();
-        Note note = new Note();
-        note.setNoteContent(content);
-        MyDatabaseHelper db = new MyDatabaseHelper(this);
-        db.addNote(note);
-        refreshView();
+//        String content = etWork.getText().toString();
+//        note.setNoteContent(content);
+//        MyDatabaseHelper db = new MyDatabaseHelper(this);
+//        db.addNote(note);
+//        refreshView();
         //Clear value in text field
-        etWork.setText("");
+//        etWork.setText("");
+        Note note = new Note();
+        Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
+        intent.putExtra("item", note);
+        intent.putExtra("action", "create");
+        startActivityForResult(intent, REQUEST_CODE);
     }
 }
