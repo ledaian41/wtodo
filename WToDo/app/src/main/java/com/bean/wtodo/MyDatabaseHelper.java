@@ -59,7 +59,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.addNote ... " + note.getNoteId());
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NOTE_TITLE,note.getNoteTitle() );
+        values.put(COLUMN_NOTE_TITLE, note.getNoteTitle());
         values.put(COLUMN_NOTE_CONTENT, note.getNoteContent());
         values.put(COLUMN_NOTE_PRIORITY, note.getNotePriority());
         db.insert(TABLE_NOTE, null, values);
@@ -70,7 +70,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "MyDatabaseHelper.getAllNote ... ");
         List<Note> list = new ArrayList<Note>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String script = "SELECT * FROM " + TABLE_NOTE;
+        String script = "SELECT * FROM " + TABLE_NOTE + " ORDER BY " + COLUMN_NOTE_PRIORITY;
         Cursor cursor = db.rawQuery(script, null);
         if (cursor.moveToFirst()) {
             do {
