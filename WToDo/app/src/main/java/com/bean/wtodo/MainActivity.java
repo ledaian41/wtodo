@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<Note> listViewAdapter;
     private ListView lvWork;
     private final int REQUEST_CODE = 20;
+    private android.app.ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         List<Note> list = db.getAllNote();
         this.noteList.addAll(list);
-//      this.listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, this.noteList);
         this.listViewAdapter = new NoteAdapter(MainActivity.this, noteList);
         lvWork.setAdapter(listViewAdapter);
         setupListViewListener();
@@ -78,14 +78,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSubmit(View view) {
-        //Get value from the text field
-//        String content = etWork.getText().toString();
-//        note.setNoteContent(content);
-//        MyDatabaseHelper db = new MyDatabaseHelper(this);
-//        db.addNote(note);
-//        refreshView();
-        //Clear value in text field
-//        etWork.setText("");
         Note note = new Note();
         Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
         intent.putExtra("item", note);
